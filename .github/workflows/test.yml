@@ -1,4 +1,4 @@
-name: Connect to Iranian DB
+name: connect
 
 on:
   push:
