@@ -1,0 +1,11 @@
+name: Connect to Iranian DB
+
+jobs:
+  test-connection:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Test database connectivity
+      run: |
+        # Test if port is reachable
+        nc -zv your-db.runflare.com 5432 -w 5 || echo "Connection failed"
