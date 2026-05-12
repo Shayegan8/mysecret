@@ -23,8 +23,8 @@ jobs:
     - name: Test HTTP/HTTPS ports connectivity
       run: |
         echo "testing 443/80 for runflare.com"
-        timeout 5 echo /dev/tcp/runflare.com/443
-        timeout 5 echo /dev/tcp/runflare.com/80
+        timeout 5 echo > /dev/tcp/runflare.com/443
+        timeout 5 echo > /dev/tcp/runflare.com/80
         echo "testing the same for arvanshit"
-        timeout 5 echo /dev/tcp/www.arvancloud.ir/443
-        timeout 5 echo /dev/tcp/www.arvancloud.ir/80
+        timeout 5 echo > /dev/tcp/www.arvancloud.ir/443
+        timeout 5 echo > /dev/tcp/www.arvancloud.ir/80
