@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: dns resolve
       run: |
-        dig +short www.arvancloud.ir
+        dig short+ www.arvancloud.ir
         echo ""
         dig short+ runflare.com
     - name: Test HTTP/HTTPS Connectivity
