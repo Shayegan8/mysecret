@@ -9,41 +9,22 @@ jobs:
     steps:
     - name: dns resolve
       run: |
-        nslookup arvancloud.ir || echo "DNS lookup failed for arvancloud.ir"
-        dig arvancloud.ir +short || echo "dig lookup failed"
+        dig +short www.arvancloud.ir
         echo ""
-        nslookup runflare.com || echo "DNS lookup failed for runflare.com"
-        dig runflare.com +short || echo "dig lookup failed"
-    
+        dig short+ runflare.com
     - name: Test HTTP/HTTPS Connectivity
       run: |
         
         echo "Testing arvancloud.ir:"
-        curl -v -L -m 10 https://www.arvancloud.ir 2>&1 | head -20 || echo "HTTP connection failed"
-        
+        curl -v -L -m 10 https://www.arvancloud.ir 2>&1 | head -20
         echo "Testing runflare.com:"
-        curl -v -L -m 10 https://runflare.com 2>&1 | head -20 || echo "HTTP connection failed"
+        curl -v -L -m 10 https://runflare.com 2>&1 | head -20
     
     - name: Test HTTP/HTTPS ports connectivity
-      run: |        
-        ARVAN_IP=$(dig +short arvancloud.ir | grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-        RUNFLARE_IP=$(dig +short runflare.com | grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-        
-        echo "ArvanCloud IP: $ARVAN_IP"
-        echo "Runflare IP: $RUNFLARE_IP"
-        
-        if [ -n "$ARVAN_IP" ]; then
-          echo ""
-          echo "Testing arvancloud.ir ports:"
-          for port in 80 443; do
-            timeout 5 bash -c "echo > /dev/tcp/$ARVAN_IP/$port" 2>/dev/null && echo "  ✅ Port $port is OPEN" || echo "  ❌ Port $port is CLOSED or filtered"
-          done
-        fi
-        
-        if [ -n "$RUNFLARE_IP" ]; then
-          echo ""
-          echo "Testing runflare.com ports:"
-          for port in 80 443; do
-            timeout 5 bash -c "echo > /dev/tcp/$RUNFLARE_IP/$port" 2>/dev/null && echo "  ✅ Port $port is OPEN" || echo "  ❌ Port $port is CLOSED or filtered"
-          done
-        fi
+      run: |
+        echo "testing 443/80 for runflare.com"
+        timeout 5 echo /dev/tcp/runflare.com/443
+        timeout 5 echo /dev/tcp/runflare.com/80
+        echo "testing the same for arvanshit"
+        timeout 5 echo /dev/tcp/www.arvancloud.ir/443
+        timeout 5 echo /dev/tcp/www.arvancloud.ir/80
