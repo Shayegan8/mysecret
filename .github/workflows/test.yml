@@ -12,5 +12,4 @@ jobs:
     steps:
     - name: Test database connectivity
       run: |
-        # Test if port is reachable
-        nc -zv runflare.com -w 5 || echo "Connection failed"
+        ping runflare.com -c 5 || echo "Connection failed"
