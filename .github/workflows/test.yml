@@ -7,11 +7,14 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: dns resolve
+    - name: dns resolve and port check
       run: |
         dig short+ www.arvancloud.ir
         echo ""
         dig short+ runflare.com
+        echo "port sex"
+        nc -zvw5 runflare.com 443
+        nc -zvw5 arvancloud.ir 443
     - name: Test HTTP/HTTPS Connectivity
       run: |
         
@@ -20,11 +23,9 @@ jobs:
         echo "Testing runflare.com:"
         curl -v -L -m 10 https://runflare.com 2>&1 | head -20
     
-    - name: Test HTTP/HTTPS ports connectivity
+    - name: Test HTTPS ports again
       run: |
-        echo "testing 443/80 for runflare.com"
-        timeout 5 echo > /dev/tcp/runflare.com/443
-        timeout 5 echo > /dev/tcp/runflare.com/80
+        echo "testing 443 for runflare.com"
+        timeout 5 bash -c "echo -e 'GET / HTTP/1.0\r\n\r\n' > /dev/tcp/runflare.com/443 && cat < /dev/tcp/runflare.com/443"
         echo "testing the same for arvanshit"
-        timeout 5 echo > /dev/tcp/www.arvancloud.ir/443
-        timeout 5 echo > /dev/tcp/www.arvancloud.ir/80
+        timeout 5 bash -c "echo -e 'GET / HTTP/1.0\r\n\r\n' > /dev/tcp/runflare.com/443 && cat < /dev/tcp/runflare.com/443"
