@@ -9,23 +9,16 @@ jobs:
     steps:
     - name: dns resolve and port check
       run: |
-        dig short+ www.arvancloud.ir
-        echo ""
-        dig short+ runflare.com
+        dig short+ pasted.ir
         echo "port sex"
-        nc -zvw5 runflare.com 443
-        nc -zvw5 arvancloud.ir 443
+        nc -zvw5 pasted.ir 443
     - name: Test HTTP/HTTPS Connectivity
       run: |
         
         echo "Testing arvancloud.ir:"
-        curl -v -L -m 10 https://www.arvancloud.ir 2>&1 | head -20
-        echo "Testing runflare.com:"
-        curl -v -L -m 10 https://runflare.com 2>&1 | head -20
+        curl -v -L -m 10 https://pasted.ir 2>&1 | head -20
     
     - name: Test HTTPS ports again
       run: |
         echo "testing 443 for runflare.com"
-        timeout 5 bash -c "echo -e 'GET / HTTP/1.0\r\n\r\n' > /dev/tcp/runflare.com/443 && cat < /dev/tcp/runflare.com/443"
-        echo "testing the same for arvanshit"
-        timeout 5 bash -c "echo -e 'GET / HTTP/1.0\r\n\r\n' > /dev/tcp/runflare.com/443 && cat < /dev/tcp/runflare.com/443"
+        timeout 5 bash -c "echo -e 'GET / HTTP/1.0\r\n\r\n' > /dev/tcp/pasted.ir/443 && cat < /dev/tcp/pasted.ir/443"
